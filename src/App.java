@@ -6,6 +6,9 @@ public class App {
     public static void main(String[] args) throws Exception {
         ArrayList<char[]> map = readMap("./resources/level/maps/map-1.txt");
         Level l = new Level(map);
+        System.out.println(l.getObstacles());
+        System.out.println(l.getPlayer());
+        System.out.println(l.getWalls());
     }
     public static ArrayList<char[]> readMap(String filePath) throws IOException {
         ArrayList<char[]> map = new ArrayList<>(); 

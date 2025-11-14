@@ -1,5 +1,6 @@
 package de.core;
 
+import java.awt.*;
 import de.core.level.Level;
 
 /** bitte gameboard extends level weil dann läuft mapping und relocating ohne reduncanz und in geil lan */
@@ -12,6 +13,19 @@ public class Gameboard {
         this.stepsLeft = level.getMaxSteps();
         this.timeLeft = level.getMaxTime();
         this.status = false;
+    }
+    public void moveTo(Point target, Direction d) {
+        for (Point o : level.getObstacles()) {
+            if (target) {
+
+            }
+        } 
+        for (Point g : l.getGoals()) {
+            
+        }
+        if (level.getGoals().equals(target)) {
+
+        }
     }
     // reducing timeLeft status
     public void tickSecound() {

@@ -44,11 +44,14 @@ public class Level {
     public Point getPlayer() {
         return player;
     }
-    public ArrayList<Point> getGoal() {
-        return goals;
-    }
     public ArrayList<Point> getObstacles() {
         return obstacles;
+    }
+    public ArrayList<Point> getWalls() {
+        return walls;
+    }
+    public ArrayList<Point> getGoals() {
+        return goals;
     }
     public int getMaxSteps() {
         return maxSteps;
