@@ -2,6 +2,7 @@ import java.io.*;
 import java.util.*;
 import de.core.level.Level;
 
+/** testing */
 public class App {
     public static void main(String[] args) throws Exception {
         ArrayList<char[]> map = readMap("./resources/level/maps/map-1.txt");
