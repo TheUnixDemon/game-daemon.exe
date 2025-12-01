@@ -1,0 +1,6 @@
+package de.core.level;
+
+/**
+ * will be replaced with only a array of Level as object file
+ */
+public class LevelLoader {}

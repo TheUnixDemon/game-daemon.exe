@@ -3,7 +3,11 @@ package de.core;
 import java.awt.*;
 import de.core.level.Level;
 
-/** bitte gameboard extends level weil dann läuft mapping und relocating ohne reduncanz und in geil lan */
+/** 
+ * backend movement and repositioning of player & tiles
+ * 
+ * //needs check // bitte gameboard extends level weil dann läuft mapping und relocating ohne reduncanz und in geil lan 
+*/
 public class Gameboard {
     private Level level;
     private int stepsLeft;

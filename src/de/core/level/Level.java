@@ -3,6 +3,10 @@ package de.core.level;
 import java.util.*;
 import java.awt.*;
 
+/**
+ * definition of maps as Level
+ * relocation of moveable objects will be made there through using array/arraylists
+ */
 public class Level {
     private ArrayList<char[]> map; // ascii map
     private int maxSteps; // movement limit
@@ -65,9 +69,11 @@ public class Level {
     public void setObstacles(ArrayList<Point> obstacles) {
         this.obstacles = obstacles;
     }
+    // additional attribute as movement limiter
     public void setMaxSteps(int maxSteps) {
         this.maxSteps = maxSteps;
     }
+    // additional attribute as time limiter
     public void setMaxTime(int maxTime) {
         this.maxTime = maxTime;
     }
