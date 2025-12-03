@@ -7,8 +7,7 @@ import java.awt.*;
  * definition of maps as Level
  * relocation of moveable objects will be made there through using array/arraylists
  */
-public class Level {
-    private ArrayList<char[]> map; // ascii map
+public class Level extends Map {
     private int maxSteps; // movement limit
     private int maxTime; // time limit in secounds
     private Point player; // position of player
@@ -16,13 +15,14 @@ public class Level {
     private ArrayList<Point> walls;
     private ArrayList<Point> goals;
 
-    public Level(ArrayList<char[]> map) {
+    public Level(String filename) throws Exception {
+        super(filename);
         this.obstacles = new ArrayList<>();
         this.walls = new ArrayList<>();
         this.goals = new ArrayList<>();
 
-        // scanning ascii map after obstacles, walls and others
-        this.map = map;
+        // scanning ascii map after obstacles, walls & others
+        ArrayList<char[]> map = super.getMap(); 
         for (int i = 0; i < map.size(); i++) {
             char[] line = map.get(i);
             for (int j = 0; j < line.length; j++) {
