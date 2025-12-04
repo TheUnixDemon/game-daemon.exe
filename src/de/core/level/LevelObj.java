@@ -24,7 +24,7 @@ public class LevelObj {
         levels.add(level);
     }
     /**
-     * saves levels (arraylist<level>) as object file
+     * saves levels ArrayList<Level> as object file
      */
     public void save() {
         ObjectOutputStream out = null;
@@ -37,7 +37,7 @@ public class LevelObj {
         }
     }
     /**
-     * reads levels (arraylist<level>) out of object file
+     * reads levels Arraylist<Level> out of object file
      */
     public void read() {
         ObjectInputStream in = null;
@@ -53,7 +53,7 @@ public class LevelObj {
         }
     }
     /**
-     * @return current level object of class
+     * @return list of Level objects
      */
     public ArrayList<Level> getLevels() {
         return levels;

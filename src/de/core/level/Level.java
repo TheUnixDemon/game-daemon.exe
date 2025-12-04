@@ -16,7 +16,7 @@ public class Level extends Map {
     private ArrayList<Point> goals;
 
     /**
-     * reads ascii map and creats groups of arraylists for each ascii item
+     * reads ascii map and creates of ArrayList<> for ascii items
      * @param filename full path to ascii map
      * @throws Exception
      */
@@ -50,33 +50,70 @@ public class Level extends Map {
             }
         }
     }
+    /**
+     * @return player
+     */
     public Point getPlayer() {
         return player;
     }
+    /**
+     * returns obstacle ArrayList<Point>; reference used to move obstacles
+     * @return obstacles
+     */
     public ArrayList<Point> getObstacles() {
         return obstacles;
     }
+    /**
+     * returns wall ArrayList<Point>
+     * @return walls
+     */
     public ArrayList<Point> getWalls() {
         return walls;
     }
+    /**
+     * returns goals ArrayList<Point>
+     * @return goals
+     */
     public ArrayList<Point> getGoals() {
         return goals;
     }
+    /**
+     * @return maxSteps
+     */
     public int getMaxSteps() {
         return maxSteps;
     }
+    /**
+     * @return maxTime
+     */
     public int getMaxTime() {
         return maxTime;
     }
+    /**
+     * change player position
+     * @param player
+     */
     public void setPlayer(Point player) {
         this.player = player;
     }
+    /**
+     * replace obstacles ArrayList<Point>
+     * @param obstacles
+     */
     public void setObstacles(ArrayList<Point> obstacles) {
         this.obstacles = obstacles;
     }
+    /**
+     * replace maxSteps int
+     * @param maxSteps
+     */
     public void setMaxSteps(int maxSteps) {
         this.maxSteps = maxSteps;
     }
+    /**
+     * replace maxTime int
+     * @param maxTime
+     */
     public void setMaxTime(int maxTime) {
         this.maxTime = maxTime;
     }
