@@ -14,12 +14,30 @@ public class Gameboard {
         this.timeLeft = level.getMaxTime();
         this.status = false;
     }
-    // later add parameter dir point
+    /**
+     * moves objects on gameboard map
+     * @param dir Direction; interpeted input signal
+     */
     public void moveTo(Direction dir) {
-        switch (dir) {}
+        if (dir != null) {
+            Point playerTarget = dir.addTo(level.getPlayer());
+            // exits method; no realocating
+            if (level.getWalls().contains(playerTarget)) { return; }
+            // move obstacle to new location
+            if (level.getObstacles().contains(playerTarget)) {
+                if (!level.getWalls().contains(dir.addTo(playerTarget)) && !level.getGoals().contains(dir.addTo(playerTarget))) {
+                    // move object to addTo(playerTarget)
+                    int obstacleId = level.getObstacles().indexOf(playerTarget);
+                    level.getObstacles().set(obstacleId, dir.addTo(playerTarget));
+                }
+            }
+            // sets status to true to win the game
+            if (level.getGoals().contains(playerTarget)) {
+                status = true;
+            }
+            level.setPlayer(playerTarget);
+        }
     }
-    // movement of player is slightly different then moveTo
-    public void movePlayer(Point target, Direction d) {}
     // reducing timeLeft status
     public void tickSecound() {
         timeLeft -= 1;
