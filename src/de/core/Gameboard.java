@@ -41,7 +41,7 @@ public class Gameboard {
         }
     }
     // movement of player is slightly different then moveTo
-    public void movePlayer(Point target, Direction d)
+    public void movePlayer(Point target, Direction d) {}
     // reducing timeLeft status
     public void tickSecound() {
         timeLeft -= 1;
