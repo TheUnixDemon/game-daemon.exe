@@ -5,7 +5,7 @@ import java.awt.event.*;
 public class KeyInput implements KeyListener {
     private Direction dir;
     public KeyInput() {
-        direction = null;
+        dir = null;
     }
     @Override
     public void keyPressed(KeyEvent e) {
@@ -26,7 +26,6 @@ public class KeyInput implements KeyListener {
                 dir = null;
                 break;
         }
-        System.out.println(direction.dir);
     }
     @Override
     public void keyReleased(KeyEvent e) {
