@@ -25,7 +25,7 @@ public class Gameboard {
     /**
      * moves objects on gameboard map
      * -> checks if game is won
-     * @param dir Direction; interpeted input signal
+     * @param dir interpreted input signal as direction
      */
     public void moveTo(Direction dir) {
         if (dir != null) {
@@ -47,13 +47,21 @@ public class Gameboard {
             level.setPlayer(playerTarget);
         }
     }
-    // reducing timeLeft status
+    /**
+     * reduces timeLeft attribute
+     */
     public void tickSecound() {
         timeLeft -= 1;
     }
+    /**
+     * @return stepsLeft
+     */
     public int getStepsLeft() {
         return stepsLeft;     
     }
+    /**
+     * @return timeLeft
+     */
     public int getTimeLeft() {
         return timeLeft;
     }
