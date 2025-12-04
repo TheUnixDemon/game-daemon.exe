@@ -12,7 +12,6 @@ public class Map implements Serializable {
     private ArrayList<char[]> map;
     /**
      * @param filename + path for reference
-     * @throws Exception 
      */
     public Map(String filename) throws Exception {
         this.filename = filename;
@@ -38,6 +37,9 @@ public class Map implements Serializable {
         }
         this.map = map;
     }
+    /**
+     * @return full map as char 2d array
+     */
     public ArrayList<char[]> getMap() {
         return map;
     }

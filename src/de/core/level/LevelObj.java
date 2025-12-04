@@ -4,27 +4,58 @@ import java.io.*;
 import java.util.*;
 
 /**
- * saves and loads level object
+ * creates & loads level object
+ * puts level in level arraylist for single object use
  */
 public class LevelObj {
-    private final String filename = "./resources/level/level.obj"; // level
+    private final String filename = "./resources/level/level.obj"; // level object path
     private ArrayList<Level> levels;
+    /**
+     * creates level object
+     */
     public LevelObj() {
         levels = new ArrayList<>();
     }
+    /**
+     * adds to current level arraylist one level
+     * @param level single one
+     */
     public void addLevel(Level level) { 
         levels.add(level);
     }
-    public void save() throws IOException {
-        ObjectOutputStream o = new ObjectOutputStream(new FileOutputStream(filename));
-        o.writeObject(levels); // saves levels as file
-        o.close();
+    /**
+     * saves levels (arraylist<level>) as object file
+     */
+    public void save() {
+        ObjectOutputStream out = null;
+        try {
+            out = new ObjectOutputStream(new FileOutputStream(filename));
+            out.writeObject(levels);
+            out.close();
+        } catch (IOException e) {
+            System.out.println(e);
+        }
     }
-    public void read() throws IOException, ClassCastException {
-        ObjectInputStream i = new ObjectInputStream(new FileInputStream(filename));
-        levels = (ArrayList<Level>) i.readObject();
-        i.close();
+    /**
+     * reads levels (arraylist<level>) out of object file
+     */
+    public void read() {
+        ObjectInputStream in = null;
+        try {
+            in = new ObjectInputStream(new FileInputStream(filename));
+            levels = (ArrayList<Level>) in.readObject();
+            in.close(); // throws ioexception
+        // replaces filenotfoundexpection
+        } catch (IOException io) {
+            System.out.println(io);
+        } catch (ClassNotFoundException cl) {
+            System.out.println(cl);
+        }
     }
-    public ArrayList<Level> get() {
+    /**
+     * @return current level object of class
+     */
+    public ArrayList<Level> getLevels() {
         return levels;
     }
+}
