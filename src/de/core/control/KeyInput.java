@@ -1,57 +1,36 @@
 package de.core.control;
 
-import java.awt.event.KeyListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 
 public class KeyInput implements KeyListener {
-    private boolean w, a, s, d;
+    private Direction dir;
     public KeyInput() {
-        w = false;
-        a = false;
-        s = false;
-        d = false;
+        direction = null;
     }
     @Override
     public void keyPressed(KeyEvent e) {
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
-                w = true;  
-                System.out.println(w);              
+                dir = Direction.UP;
                 break;
             case KeyEvent.VK_A:
-                a = true;
-                System.out.println(a);
+                dir = Direction.LEFT;
                 break;
             case KeyEvent.VK_S:
-                s = true;
-                System.out.println(s);
+                dir = Direction.DOWN;
                 break;
             case KeyEvent.VK_D:
-                System.out.println(d);
-                d = true;
+                dir = Direction.RIGHT;
                 break;
             default:
+                dir = null;
                 break;
         }
-    }   
+        System.out.println(direction.dir);
+    }
     @Override
     public void keyReleased(KeyEvent e) {
-        switch (e.getKeyCode()) {
-            case KeyEvent.VK_W:
-                w = false;
-                break;
-            case KeyEvent.VK_A:
-                a = false;
-                break;
-            case KeyEvent.VK_S:
-                s = false;
-                break;
-            case KeyEvent.VK_D:
-                s = false;
-                break;
-            default:
-                break;
-        }
+            dir = null;
     }
     @Override
     public void keyTyped(KeyEvent e) {}

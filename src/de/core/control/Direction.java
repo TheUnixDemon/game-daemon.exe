@@ -8,8 +8,11 @@ public enum Direction {
     DOWN(0, 1),
     LEFT(-1, 0);   
     
-    public final Point dir;
+    private final Point point;
     Direction(int dx, int dy) { 
-        dir = new Point(dx, dy);
+        point = new Point(dx, dy);
+    }
+    public Point getPoint() {
+        return point;
     }
 }
