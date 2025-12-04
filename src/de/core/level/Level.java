@@ -15,6 +15,11 @@ public class Level extends Map {
     private ArrayList<Point> walls;
     private ArrayList<Point> goals;
 
+    /**
+     * reads ascii map and creats groups of arraylists for each ascii item
+     * @param filename full path to ascii map
+     * @throws Exception
+     */
     public Level(String filename) throws Exception {
         super(filename);
         this.obstacles = new ArrayList<>();
@@ -69,11 +74,9 @@ public class Level extends Map {
     public void setObstacles(ArrayList<Point> obstacles) {
         this.obstacles = obstacles;
     }
-    // additional attribute as movement limiter
     public void setMaxSteps(int maxSteps) {
         this.maxSteps = maxSteps;
     }
-    // additional attribute as time limiter
     public void setMaxTime(int maxTime) {
         this.maxTime = maxTime;
     }

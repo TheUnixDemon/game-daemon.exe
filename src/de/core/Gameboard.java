@@ -4,11 +4,19 @@ import java.awt.*;
 import de.core.level.Level;
 import de.core.control.Direction;
 
+/**
+ * backend for gameplay
+ * controls Level object such as movement & game status
+ */
 public class Gameboard {
     private Level level;
     private int stepsLeft;
     private int timeLeft;
     private boolean status;
+    /**
+     * sets *Left attributes
+     * @param level choosen level to play
+     */
     public Gameboard(Level level) {
         this.stepsLeft = level.getMaxSteps();
         this.timeLeft = level.getMaxTime();
@@ -16,6 +24,7 @@ public class Gameboard {
     }
     /**
      * moves objects on gameboard map
+     * -> checks if game is won
      * @param dir Direction; interpeted input signal
      */
     public void moveTo(Direction dir) {
