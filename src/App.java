@@ -7,13 +7,12 @@ public class App {
         // Der Pfad muss relativ zum Verzeichnis sein, aus dem das Programm ausgeführt wird (meist das Projekt-Stammverzeichnis).
         String levelPath = "./srv/level/map/map-1.txt"; 
         
-        Level level = null;
         try {
-            level = new Level(levelPath);
+            Level level = new Level(levelPath);
+            GameController controller = new GameController(level);
         } catch (Exception e) {
             System.out.println(e);
         }
-        GameController controller = new GameController(level);
-
+        
     }
 }

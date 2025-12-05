@@ -18,6 +18,7 @@ public class Gameboard {
      * @param level choosen level to play
      */
     public Gameboard(Level level) {
+        this.level = level;
         this.stepsLeft = level.getMaxSteps();
         this.timeLeft = level.getMaxTime();
         this.status = false;
