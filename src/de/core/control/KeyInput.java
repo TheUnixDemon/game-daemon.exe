@@ -43,5 +43,7 @@ public class KeyInput implements KeyListener {
     }
     @Override
     public void keyTyped(KeyEvent e) {}
-
+    public Direction getDirection() {
+        return dir;
+    }
 }

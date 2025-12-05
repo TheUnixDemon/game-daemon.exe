@@ -29,12 +29,13 @@ public class Gameboard {
      */
     public void moveTo(Direction dir) {
         if (dir != null) {
+            stepsLeft -= 1;
             Point playerTarget = dir.addTo(level.getPlayer());
             // exits method; no realocating
             if (level.getWalls().contains(playerTarget)) { return; }
             // move obstacle to new location
             if (level.getObstacles().contains(playerTarget)) {
-                if (!level.getWalls().contains(dir.addTo(playerTarget)) && !level.getGoals().contains(dir.addTo(playerTarget))) {
+                if (!level.getObstacles().contains(dir.addTo(playerTarget)) && !level.getWalls().contains(dir.addTo(playerTarget)) && !level.getGoals().contains(dir.addTo(playerTarget))) {
                     // move object to addTo(playerTarget)
                     int obstacleId = level.getObstacles().indexOf(playerTarget);
                     level.getObstacles().set(obstacleId, dir.addTo(playerTarget));
@@ -54,15 +55,18 @@ public class Gameboard {
         timeLeft -= 1;
     }
     /**
-     * @return stepsLeft
+     * @return steps left
      */
     public int getStepsLeft() {
         return stepsLeft;     
     }
     /**
-     * @return timeLeft
+     * @return time left
      */
     public int getTimeLeft() {
         return timeLeft;
+    }
+    public boolean getStatus() {
+        return status;
     }
 }
