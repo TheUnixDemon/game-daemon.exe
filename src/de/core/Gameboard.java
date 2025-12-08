@@ -40,6 +40,8 @@ public class Gameboard {
                     // move object to addTo(playerTarget)
                     int obstacleId = level.getObstacles().indexOf(playerTarget);
                     level.getObstacles().set(obstacleId, dir.addTo(playerTarget));
+                } else {
+                    return;
                 }
             }
             // sets status to true to win the game

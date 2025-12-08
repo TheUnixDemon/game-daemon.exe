@@ -28,19 +28,24 @@ public class GameController implements ActionListener {
 
         frame = new JFrame("test" + gameboard.getStepsLeft());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false); 
+        frame.setResizable(true); 
 
         frame.add(gameView);
+        gameView.setFocusable(true);
+        gameView.addKeyListener(keyInput);
 
-        frame.addKeyListener(keyInput);
-        frame.setFocusable(true);
-        frame.requestFocusInWindow();
+        //frame.addKeyListener(keyInput);
+        //frame.setFocusable(true);
+        //frame.requestFocusInWindow();
 
         frame.pack(); 
         frame.setLocationRelativeTo(null); 
         frame.setVisible(true);
 
-        gameLoopTimer = new Timer(16, this);
+        gameView.requestFocusInWindow();
+
+        // fix for repeated input
+        gameLoopTimer = new Timer(128, this);
         gameLoopTimer.start();
     }
 

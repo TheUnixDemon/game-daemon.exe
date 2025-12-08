@@ -20,7 +20,6 @@ public class GameView extends JPanel {
     private final Color OBSTACLE_COLOR = new Color(139, 69, 19); 
     private final Color GOAL_COLOR = new Color(0, 150, 0); 
 
-
     public GameView(Level level) {
         this.level = level;
         // Berechnung der Größe des Panels basierend auf der Level-Größe

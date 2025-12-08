@@ -6,10 +6,11 @@ import java.awt.*;
  * implements interpretation of input direction as coordiantes
  */
 public enum Direction {
-    UP(0, -1),
-    RIGHT(1, 0),
-    DOWN(0, 1),
-    LEFT(-1, 0);   
+    // inverted coordinates for right directions on gameView
+    UP(-1, 0),
+    RIGHT(0, 1),
+    DOWN(1, 0),
+    LEFT(0, -1);   
     
     // current direction interpeted as Point for calculating target Point
     private final Point dir;
