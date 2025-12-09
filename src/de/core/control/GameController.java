@@ -45,7 +45,7 @@ public class GameController implements ActionListener {
         gameView.requestFocusInWindow();
 
         // fix for repeated input
-        gameLoopTimer = new Timer(128, this);
+        gameLoopTimer = new Timer(12, this);
         gameLoopTimer.start();
     }
 

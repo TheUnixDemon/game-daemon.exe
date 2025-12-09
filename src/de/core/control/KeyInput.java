@@ -43,6 +43,10 @@ public class KeyInput implements KeyListener {
     }
     @Override
     public void keyTyped(KeyEvent e) {}
+    /**
+     * for relocating of 
+     * @return direction of movement
+     */
     public Direction getDirection() {
         return dir;
     }
