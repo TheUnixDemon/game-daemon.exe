@@ -8,8 +8,8 @@ import java.awt.*;
  * relocation of moveable objects will be made there through using array/arraylists
  */
 public class Level extends Map {
-    private int maxSteps; // movement limit
-    private int maxTime; // time limit in secounds
+    private int maxSteps = -1; // movement limit
+    private long maxTime = -1L; // time limit in secounds
     private Point player; // position of player
     private ArrayList<Point> obstacles;
     private ArrayList<Point> walls;
@@ -92,7 +92,7 @@ public class Level extends Map {
     /**
      * @return maxTime
      */
-    public int getMaxTime() {
+    public long getMaxTime() {
         return maxTime;
     }
 
@@ -119,12 +119,12 @@ public class Level extends Map {
     public void setMaxSteps(int maxSteps) {
         this.maxSteps = maxSteps;
     }
-    
+
     /**
      * replace maxTime int
      * @param maxTime
      */
-    public void setMaxTime(int maxTime) {
+    public void setMaxTime(long maxTime) {
         this.maxTime = maxTime;
     }
 }

@@ -1,4 +1,4 @@
-package de.core.control;
+package de.ui;
 
 import java.awt.*;
 import java.util.*;
@@ -11,7 +11,8 @@ import de.core.level.Level;
  * draws current position of Level objects on window screen
  */
 public class GameView extends JPanel {
-    private Level level;
+    private Level level; // current choosen level
+
     // variable tile size
     private int tileSize = 0;
     private final int MIN_TILE_SIZE = 25; // smallest tile size

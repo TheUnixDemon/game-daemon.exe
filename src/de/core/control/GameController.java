@@ -1,32 +1,45 @@
 package de.core.control;
 
-import de.core.level.Level;
-import de.core.Gameboard; 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Point;
-import java.util.ArrayList;
+import java.awt.event.ActionEvent;
+import javax.swing.*;
+import javax.swing.Timer;
 
+import de.core.level.Level;
+import de.core.Gameboard; 
+import de.ui.GameView;
 
+/**
+ * 
+ */
 public class GameController implements ActionListener {
-    
-    // UI komponents
+    // ui components
+    private String frameTitle = "Gamon";
     private JFrame frame;
     private GameView gameView; 
     
-    // Logik komponents
+    // logical components
     private KeyInput keyInput;
     private Gameboard gameboard; 
     private Timer gameLoopTimer;
 
+    // time measurements
+    private long startTimeMillis;
+
+    /**
+     * creates base frame & sets Gameboard to choosen Level for changing Level data & GameView for reading Level data
+     * GameView (fontend) draws Level data that is edited by Gameboard (backend)
+     * @param level choosen one as base for Gameboard & GameView objs
+     */
     public GameController(Level level) {
-        this.gameboard = new Gameboard(level); 
-        
+        this.gameboard = new Gameboard(level);
         this.gameView = new GameView(level); 
         this.keyInput = new KeyInput();
+        this.startTimeMillis = System.currentTimeMillis(); // for timeMeasurement(); returns used time per action
 
-        frame = new JFrame("test" + gameboard.getStepsLeft());
+        // base frame
+        frame = new JFrame("Gamon" + gameboard.getStepsLeft());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(true); 
 
@@ -34,28 +47,38 @@ public class GameController implements ActionListener {
         gameView.setFocusable(true);
         gameView.addKeyListener(keyInput);
 
-        //frame.addKeyListener(keyInput);
-        //frame.setFocusable(true);
-        //frame.requestFocusInWindow();
-
         frame.pack(); 
         frame.setLocationRelativeTo(null); 
         frame.setVisible(true);
 
         gameView.requestFocusInWindow();
 
-        // fix for repeated input
+        // set for fixed refresh rate
         gameLoopTimer = new Timer(12, this);
         gameLoopTimer.start();
     }
 
+    /**
+     * will be executed after each performed action
+     * calls methods for movement after KeyListener has returned a direction that is valid
+     * decreases time left in Gameboard
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
+        // conditions & statistics
+        if (gameboard.getEndGame()) {}
+        long timeUsed = getTimeMeasurement();
+        gameboard.decreaseTimeLeft(timeUsed); gameboard.addTimeUsed(timeUsed);
+
+
+        // movement
         Direction dir = keyInput.getDirection();
 
+        // player inputs something
         if (dir != null) {
+            gameboard.decreaseStepsLeft(); gameboard.addStepsUsed();
             gameboard.moveTo(dir);       
-            frame.setTitle("test test" + gameboard.getStepsLeft());
+            frame.setTitle(frameTitle + " time used: " + gameboard.getTimeUsed());
         }
 
         if (gameboard.getStatus()) {
@@ -64,6 +87,25 @@ public class GameController implements ActionListener {
             frame.dispose(); 
             return;
         }
+        
+        // redraw & add informations
+        frame.setTitle(frameTitle + ", steps taken: " + gameboard.getStepsUsed() + ", time used: " + gameboard.getTimeUsed());
         gameView.repaint();
     }
+
+    /**
+     * @return time span between last end current actions
+     * used for decreasing Gameboard.timeLeft() and adding to Gameboard.timeUsed()
+     */
+    public long getTimeMeasurement() {
+        long currentTime = System.currentTimeMillis();
+        long deltaTime = System.currentTimeMillis() - startTimeMillis;
+        startTimeMillis = currentTime;
+        return deltaTime;
+    }
+
+    /**
+     * will be executed after endGame is set to True by Gameboard
+     */
+    public void GameOver() {}
 }
