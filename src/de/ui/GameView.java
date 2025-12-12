@@ -167,8 +167,6 @@ public class GameView extends JPanel {
         // Draw Time Left if a limit is set (not -1.0)
         if (timeLeft != -1.0) {
             String timeText = "Zeit übrig: " + formattedTime + " s";
-            // Wir zeichnen die Zeit über den Schritten oder direkt am unteren Rand, 
-            // falls Schritte nicht angezeigt werden.
             g2d.drawString(timeText, xPos, yPos);
         }
     }
@@ -179,13 +177,11 @@ public class GameView extends JPanel {
         int mapWidth = level.getMap().get(0).length;
         int mapHeight = level.getMap().size();
 
-        // Berechne wie viel Platz ein Tile maximal haben darf
         int tileW = Math.min(Math.max(getWidth() / mapWidth, MIN_TILE_SIZE), MAX_TILE_SIZE);
         int tileH = Math.min(Math.max(getHeight() / mapHeight, MIN_TILE_SIZE), MAX_TILE_SIZE);
         
-        tileSize = Math.min(tileW, tileH); // Wähle den kleineren Wert für Proportionalität
+        tileSize = Math.min(tileW, tileH);
 
-        // Berechne Offsets für die Zentrierung innerhalb des Panels
         offsetX = (getWidth() - (mapWidth * tileSize)) / 2;
         offsetY = (getHeight() - (mapHeight * tileSize)) / 2;
     }

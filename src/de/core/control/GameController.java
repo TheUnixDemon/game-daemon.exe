@@ -92,16 +92,15 @@ public class GameController implements ActionListener {
         frame.setTitle(frameTitle);
         gameView.repaint();
     }
-    
+
     /**
      * Gathers current game statistics and passes them to GameView for drawing.
      */
     private void updateViewStats() {
-        // Wir übergeben die Werte, die wir anzeigen wollen: StepsLeft und TimeLeft
         int stepsLeft = gameboard.getStepsLeft();
         double timeLeft = gameboard.getTimeLeft();
         
-        // Call the new method in GameView
+        // draw stats on gameboard ui
         gameView.updateStats(stepsLeft, timeLeft);
     }
 
