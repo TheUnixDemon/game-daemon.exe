@@ -1,44 +1,36 @@
 package de.core;
 
 import java.util.*;
-
 import javax.swing.SwingUtilities;
 
 import de.core.level.Level;
+import de.core.level.LevelCreate;
+import de.core.control.GameController;
 import de.ui.*;
 
 /**
- * here the entry for everything
+ * control class and entrypoint for game
  */
 public class Gamecore {
     private ArrayList<Level> levels = new ArrayList<>();
     
-    public Gamecore() {
-        prepareLevels();
-        SwingUtilities.invokeLater(() -> { new LevelSelectionView(levels); });
-    }
-
     /**
-     * creates levels and sets them into the arraylist
+     * entrypoint in game
      */
-    public void prepareLevels() {
-        levels.add(createLevel("map-1.txt", 100, 50000));
-        levels.add(createLevel("map-2.txt", 40, 30000));
-        levels.add(createLevel("map-3.txt", 30,30000));
+    public Gamecore() {
+        // create & save Level objects as arraylist in local reference
+        LevelCreate levelCreate = new LevelCreate();
+        levels = levelCreate.getLevels();
+
+        // start ui
+        ui();
     }
 
     /**
-     * used for manually hardcoded maploader
-     * @param filename of map within right folder
-     * @param maxSteps of level - condition
-     * @param maxTime of level - condition
-     * @return level object for arraylist
-     */    
-    private Level createLevel(String filename, int maxSteps, long maxTime) {
-        String basePath = "./srv/level/map/"; // relative path form execution
-        Level level = new Level(basePath + filename);
-        if (maxSteps != -1) { level.setMaxSteps(maxSteps); }
-        if (maxTime != -1) { level.setMaxTime(maxTime); }
-        return level;
+     * start ui
+     */
+    public void ui() {
+        //LevelSelectionView levelSelectionView = new LevelSelectionView(levels);
+        GameController t = new GameController(levels.get(0));
     }
 }

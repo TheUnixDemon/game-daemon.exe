@@ -1,40 +1,7 @@
-import java.util.ArrayList;
-
-import javax.swing.SwingUtilities;
-
-import de.core.level.*;
-import de.ui.LevelSelectionView;
-import de.core.*;
-import de.core.control.GameController;
+import de.core.Gamecore;
 
 public class App {
-    private static ArrayList<Level> levels = new ArrayList<>();
-    public static void main(String[] args) {
-        prepareLevels();
-        SwingUtilities.invokeLater(() -> { new LevelSelectionView(levels); });
-    }
-
-    /**
-     * creates levels and sets them into the arraylist
-     */
-    public static void prepareLevels() {
-        levels.add(createLevel("map-1.txt", 100, 50000));
-        levels.add(createLevel("map-2.txt", 40, 30000));
-        levels.add(createLevel("map-3.txt", 30,30000));
-    }
-
-    /**
-     * used for manually hardcoded maploader
-     * @param filename of map within right folder
-     * @param maxSteps of level - condition
-     * @param maxTime of level - condition
-     * @return level object for arraylist
-     */    
-    private static Level createLevel(String filename, int maxSteps, long maxTime) {
-        String basePath = "./srv/level/map/"; // relative path form execution
-        Level level = new Level(basePath + filename);
-        if (maxSteps != -1) { level.setMaxSteps(maxSteps); }
-        if (maxTime != -1) { level.setMaxTime(maxTime); }
-        return level;
-    }
+        public static void main(String[] args) {
+            Gamecore gamecore = new Gamecore();
+        }
 }

@@ -4,14 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
-import javax.swing.Timer;
 
 import de.core.level.Level;
 import de.core.Gameboard; 
 import de.ui.GameView;
 
 /**
- * 
+ * comment here are missing :(
  */
 public class GameController implements ActionListener {
     // ui components
@@ -89,8 +88,21 @@ public class GameController implements ActionListener {
         }
         
         // redraw & add informations
-        frame.setTitle(frameTitle + ", steps taken: " + gameboard.getStepsUsed() + ", time used: " + gameboard.getTimeUsed());
+        updateViewStats(); // New method to pass stats to GameView
+        frame.setTitle(frameTitle);
         gameView.repaint();
+    }
+    
+    /**
+     * Gathers current game statistics and passes them to GameView for drawing.
+     */
+    private void updateViewStats() {
+        // Wir übergeben die Werte, die wir anzeigen wollen: StepsLeft und TimeLeft
+        int stepsLeft = gameboard.getStepsLeft();
+        double timeLeft = gameboard.getTimeLeft();
+        
+        // Call the new method in GameView
+        gameView.updateStats(stepsLeft, timeLeft);
     }
 
     /**
@@ -103,7 +115,7 @@ public class GameController implements ActionListener {
         startTimeMillis = currentTime;
         return deltaTime;
     }
-
+    
     /**
      * will be executed after endGame is set to True by Gameboard
      */

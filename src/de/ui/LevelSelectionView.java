@@ -30,7 +30,7 @@ public class LevelSelectionView extends JFrame implements ActionListener {
         this.levels = levels;
         
         // 1. Basic window setup
-        setTitle("Goman Level-Menü");
+        setTitle("Gamon Level-Menü");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
         // Set fixed preferred size
@@ -40,7 +40,7 @@ public class LevelSelectionView extends JFrame implements ActionListener {
         setLayout(new BorderLayout(10, 10)); // 10px padding between regions
         
         // 2. Header / Title Label
-        JLabel titleLabel = new JLabel("Wählen Sie Ihr Goman-Level:", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("Wählen Sie Ihr Gamon-Level:", SwingConstants.CENTER);
         titleLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0)); // Top padding
         add(titleLabel, BorderLayout.NORTH);
