@@ -18,9 +18,8 @@ public class Level extends Map {
     /**
      * reads ascii map and creates of ArrayList<> for ascii items
      * @param filename full path to ascii map
-     * @throws Exception
      */
-    public Level(String filename) throws Exception {
+    public Level(String filename) {
         super(filename);
         this.obstacles = new ArrayList<>();
         this.walls = new ArrayList<>();
@@ -32,10 +31,10 @@ public class Level extends Map {
             char[] line = map.get(i);
             for (int j = 0; j < line.length; j++) {
                 switch (line[j]) {
-                    case '!':
+                    case '*':
                         this.obstacles.add(new Point(i, j));
                         break;
-                    case '#':
+                    case 'X':
                         this.walls.add(new Point(i, j));
                         break;
                     case '.':

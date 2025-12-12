@@ -15,7 +15,7 @@ public class GameView extends JPanel {
 
     // variable tile size
     private int tileSize = 0;
-    private final int MIN_TILE_SIZE = 25; // smallest tile size
+    private final int MIN_TILE_SIZE = 35; // smallest tile size
     private final int MAX_TILE_SIZE = 60; // biggest tile size
 
     // centralized gameboard

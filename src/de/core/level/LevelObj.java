@@ -8,7 +8,7 @@ import java.util.*;
  * puts level in level arraylist for single object use
  */
 public class LevelObj {
-    private final String filename = "./resources/level/level.obj"; // level object path
+    private final String filename = "/resources/level/level.obj"; // level object path
     private ArrayList<Level> levels;
 
     /**
@@ -47,7 +47,9 @@ public class LevelObj {
         ObjectInputStream in = null;
         try {
             in = new ObjectInputStream(new FileInputStream(filename));
-            levels = (ArrayList<Level>) in.readObject();
+            @SuppressWarnings("unchecked")
+            ArrayList<Level> levels = (ArrayList<Level>) in.readObject();
+            this.levels = levels;
             in.close(); // throws ioexception
         // replaces filenotfoundexpection
         } catch (IOException io) {
@@ -56,7 +58,7 @@ public class LevelObj {
             System.out.println(cl);
         }
     }
-    
+
     /**
      * @return list of Level objects
      */

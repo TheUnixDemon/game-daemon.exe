@@ -14,7 +14,7 @@ public class Map implements Serializable {
     /**
      * @param filename + path for reference
      */
-    public Map(String filename) throws Exception {
+    public Map(String filename) {
         this.filename = filename;
         read(); // sets map through read map data
     }
