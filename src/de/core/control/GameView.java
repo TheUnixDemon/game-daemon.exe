@@ -7,8 +7,8 @@ import javax.swing.JPanel;
 import de.core.level.Level;
 
 /**
- * GameView ist die visuelle Komponente (ersetzt das alte GameBoard),
- * die den Zustand des Level-Objekts zeichnet.
+ * ui component of Gameboard; draws Gamboard
+ * draws current position of Level objects on window screen
  */
 public class GameView extends JPanel {
     private Level level;

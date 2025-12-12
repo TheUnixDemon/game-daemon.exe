@@ -10,6 +10,7 @@ import java.util.*;
 public class Map implements Serializable {
     private String filename;
     private ArrayList<char[]> map;
+
     /**
      * @param filename + path for reference
      */
@@ -17,12 +18,11 @@ public class Map implements Serializable {
         this.filename = filename;
         read(); // sets map through read map data
     }
+
     /**
-     * 2d array representing the map using scanner to read the file
-     * @return mapdata
-     * @throws IOException read map file
+     * sets 2d array representing the map using scanner to read ascii map file
      */
-    public void read() throws IOException {
+    public void read() {
         ArrayList<char[]> map = new ArrayList<>();
         Scanner scan = null;
         try {
@@ -37,6 +37,7 @@ public class Map implements Serializable {
         }
         this.map = map;
     }
+
     /**
      * @return full map as char 2d array
      */

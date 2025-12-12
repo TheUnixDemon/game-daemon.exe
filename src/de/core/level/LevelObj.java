@@ -10,12 +10,14 @@ import java.util.*;
 public class LevelObj {
     private final String filename = "./resources/level/level.obj"; // level object path
     private ArrayList<Level> levels;
+
     /**
      * creates level object
      */
     public LevelObj() {
         levels = new ArrayList<>();
     }
+
     /**
      * adds to current level arraylist one level
      * @param level single one
@@ -23,6 +25,7 @@ public class LevelObj {
     public void addLevel(Level level) { 
         levels.add(level);
     }
+    
     /**
      * saves levels ArrayList<Level> as object file
      */
@@ -36,6 +39,7 @@ public class LevelObj {
             System.out.println(e);
         }
     }
+
     /**
      * reads levels Arraylist<Level> out of object file
      */
@@ -52,6 +56,7 @@ public class LevelObj {
             System.out.println(cl);
         }
     }
+    
     /**
      * @return list of Level objects
      */
