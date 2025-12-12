@@ -19,6 +19,10 @@ public class Map implements Serializable {
         read(); // sets map through read map data
     }
 
+    public Map(ArrayList<char[]> map) {
+        this.map = map;
+    }
+
     /**
      * sets 2d array representing the map using scanner to read ascii map file
      */

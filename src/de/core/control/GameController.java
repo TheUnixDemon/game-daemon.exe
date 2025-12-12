@@ -11,7 +11,8 @@ import de.ui.GameEndView;
 import de.ui.GameView;
 
 /**
- * comment here are missing :(
+ * controls fontends & backend
+ * implements frontends GameEndView & GameView; implements backends Level & Gameboard
  */
 public class GameController implements ActionListener {
     // ui components
@@ -23,6 +24,9 @@ public class GameController implements ActionListener {
     private KeyInput keyInput;
     private Gameboard gameboard; 
     private Timer gameLoopTimer;
+
+    // deep copy for restarting
+    private Level initialLevel; 
 
     // time measurements
     private long startTimeMillis;
@@ -36,6 +40,7 @@ public class GameController implements ActionListener {
         this.gameboard = new Gameboard(level);
         this.gameView = new GameView(level); 
         this.keyInput = new KeyInput();
+        this.initialLevel = new Level(level);
         this.startTimeMillis = System.currentTimeMillis(); // for timeMeasurement(); returns used time per action
 
         // base frame
@@ -116,27 +121,33 @@ public class GameController implements ActionListener {
         return deltaTime;
     }
     
-/**
+    /**
      * Displays the end screen (GameEndView) and closes the game window.
      * @param status True if the level was completed, False otherwise.
      */
     public void GameOver(boolean status) {
-        // Stoppt den Game Loop
         if (gameLoopTimer != null && gameLoopTimer.isRunning()) {
             gameLoopTimer.stop();
         }
 
-        // 1. Hole die End-Statistiken
-        // ANNAHME: Gameboard.getStepsUsed() und Gameboard.getTimeUsed() existieren
         int totalStepsUsed = gameboard.getStepsUsed();
         double totalTimeUsed = gameboard.getTimeUsed();
         
-        // 2. Schließe das aktuelle Spielfenster
         frame.dispose(); 
         
-        // 3. Starte die GameEnd-UI
-        SwingUtilities.invokeLater(() -> {
-            new GameEndView(status, totalStepsUsed, totalTimeUsed);
-        });
+        new GameEndView(status, totalStepsUsed, totalTimeUsed, this);
+    }
+
+    public void gameRestart() {
+        if (gameLoopTimer != null) {
+            gameLoopTimer.stop();
+        }
+
+        if (frame != null) {
+            frame.dispose();
+        }
+
+        Level nextInitialLevel = new Level(initialLevel); 
+        new GameController(nextInitialLevel);
     }
 }

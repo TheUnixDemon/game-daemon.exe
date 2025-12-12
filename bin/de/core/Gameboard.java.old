@@ -55,7 +55,7 @@ public class Gameboard {
             
             // move obstacle to new location
             if (level.getObstacles().contains(playerTarget)) {
-                if (!level.getObstacles().contains(dir.addTo(playerTarget)) && !level.getWalls().contains(dir.addTo(playerTarget))) {
+                if (!level.getObstacles().contains(dir.addTo(playerTarget)) && !level.getWalls().contains(dir.addTo(playerTarget)) && !level.getGoals().contains(dir.addTo(playerTarget))) {
                     // move object to addTo(playerTarget)
                     int obstacleId = level.getObstacles().indexOf(playerTarget);
                     level.getObstacles().set(obstacleId, dir.addTo(playerTarget));
@@ -65,9 +65,9 @@ public class Gameboard {
             }
 
             // sets status to true to win the game
-            if (level.getGoals().containsAll(level.getObstacles())) {
+            if (level.getGoals().contains(playerTarget)) {
                 endGame = true;
-                status = true;
+                status = true; 
             }
             level.setPlayer(playerTarget);
         }

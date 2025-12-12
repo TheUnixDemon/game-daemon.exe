@@ -30,7 +30,6 @@ public class Gamecore {
      * start ui
      */
     public void ui() {
-        //LevelSelectionView levelSelectionView = new LevelSelectionView(levels);
-        GameController t = new GameController(levels.get(0));
+        LevelSelectionView levelSelectionView = new LevelSelectionView(levels);
     }
 }

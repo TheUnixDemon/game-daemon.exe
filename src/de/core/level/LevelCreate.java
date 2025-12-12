@@ -26,11 +26,11 @@ public class LevelCreate {
      * creates levels and sets them into the arraylist
      */
     protected void addLevels() {
-        levels.add(createLevel("map-1.txt", 100, 50000));
-        levels.add(createLevel("map-2.txt", 40, 30000));
-        levels.add(createLevel("map-3.txt", 30,30000));
-        levels.add(createLevel("map-4.txt", 30,30000));
-        levels.add(createLevel("map-5.txt", 30,30000));
+        levels.add(createLevel("map-0.txt", 120, 120000));
+        levels.add(createLevel("map-1.txt", 120, 120000));
+        levels.add(createLevel("map-2.txt", 120, 120000));
+        levels.add(createLevel("map-3.txt", 120, -1));
+        levels.add(createLevel("map-4.txt", -1, 120000));
     }
 
     /**

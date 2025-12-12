@@ -21,6 +21,21 @@ public class Level extends Map {
      */
     public Level(String filename) {
         super(filename);
+        setLevel();
+    }
+
+    /**
+     * reads ascii map and creates of ArrayList<> for ascii items
+     * @param filename full path to ascii map
+     */
+    public Level(Level level) {
+        super(level.getMap());
+        this.setMaxSteps(level.maxSteps);
+        this.setMaxTime(level.maxTime);
+        setLevel();
+    }
+
+    public void setLevel() {
         this.obstacles = new ArrayList<>();
         this.walls = new ArrayList<>();
         this.goals = new ArrayList<>();
