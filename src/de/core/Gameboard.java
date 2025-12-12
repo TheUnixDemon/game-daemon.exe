@@ -66,7 +66,8 @@ public class Gameboard {
 
             // sets status to true to win the game
             if (level.getGoals().contains(playerTarget)) {
-                status = true;
+                endGame = true;
+                status = true; 
             }
             level.setPlayer(playerTarget);
         }

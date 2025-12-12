@@ -6,7 +6,8 @@ import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 import de.core.level.Level;
-import de.core.Gameboard; 
+import de.core.Gameboard;
+import de.ui.GameEndView;
 import de.ui.GameView;
 
 /**
@@ -80,10 +81,10 @@ public class GameController implements ActionListener {
             frame.setTitle(frameTitle + " time used: " + gameboard.getTimeUsed());
         }
 
-        if (gameboard.getStatus()) {
+        if (gameboard.getEndGame()) {
             gameLoopTimer.stop();
-            JOptionPane.showMessageDialog(frame, "won");
             frame.dispose(); 
+            GameOver(gameboard.getStatus());
             return;
         }
         
@@ -115,8 +116,27 @@ public class GameController implements ActionListener {
         return deltaTime;
     }
     
-    /**
-     * will be executed after endGame is set to True by Gameboard
+/**
+     * Displays the end screen (GameEndView) and closes the game window.
+     * @param status True if the level was completed, False otherwise.
      */
-    public void GameOver() {}
+    public void GameOver(boolean status) {
+        // Stoppt den Game Loop
+        if (gameLoopTimer != null && gameLoopTimer.isRunning()) {
+            gameLoopTimer.stop();
+        }
+
+        // 1. Hole die End-Statistiken
+        // ANNAHME: Gameboard.getStepsUsed() und Gameboard.getTimeUsed() existieren
+        int totalStepsUsed = gameboard.getStepsUsed();
+        double totalTimeUsed = gameboard.getTimeUsed();
+        
+        // 2. Schließe das aktuelle Spielfenster
+        frame.dispose(); 
+        
+        // 3. Starte die GameEnd-UI
+        SwingUtilities.invokeLater(() -> {
+            new GameEndView(status, totalStepsUsed, totalTimeUsed);
+        });
+    }
 }
