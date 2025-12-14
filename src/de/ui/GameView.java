@@ -1,8 +1,11 @@
 package de.ui;
 
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
-import javax.swing.JPanel;
+import javax.imageio.ImageIO;
+import javax.swing.*;
 
 import de.core.level.Level;
 
@@ -15,8 +18,16 @@ public class GameView extends JPanel {
 
     // variable tile size
     private int tileSize = 0;
-    private final int MIN_TILE_SIZE = 35; // smallest tile size
-    private final int MAX_TILE_SIZE = 60; // biggest tile size
+    private final int MIN_TILE_SIZE = 45; // smallest tile size
+    private final int MAX_TILE_SIZE = 80; // biggest tile size
+
+    // image caching
+    private Map<String, Image> imageCache = new HashMap<>();
+    private String basePath = "./srv/tile/"; // CHANGEME
+    private String wallImg = basePath + "wall-2.jpg";
+    private String playerImg = basePath + "player.png";
+    private String goalImg = basePath + "goal.png";
+    private String obstacleImg = basePath + "obstacle.png";
 
     // centralized gameboard
     private int offsetX = 0;
@@ -28,11 +39,11 @@ public class GameView extends JPanel {
 
     // colors for testing & fillin if tile set not found (img not found)
     private final Color WALL_COLOR = new Color(50, 50, 50);
-    private final Color FLOOR_COLOR = new Color(200, 200, 200);
+    private final Color FLOOR_COLOR = new Color(30,30,30);
     private final Color PLAYER_COLOR = Color.BLUE;
     private final Color OBSTACLE_COLOR = new Color(139, 69, 19); 
     private final Color GOAL_COLOR = new Color(0, 150, 0); 
-    private final Color STATS_COLOR = Color.BLACK; // New color for stats
+    private final Color STATS_COLOR = Color.WHITE; // New color for stats
 
     public GameView(Level level) {
         this.level = level;
@@ -72,7 +83,7 @@ public class GameView extends JPanel {
         int cols = level.getMap().get(0).length;
 
         // Draw background (optional: only needed if map drawing doesn't fill the space)
-        g2d.setColor(new Color(200, 200, 200));
+        g2d.setColor(new Color(139,125,123));
         g2d.fillRect(offsetX, offsetY, cols * tileSize, rows * tileSize);
 
         // Draw Gameboard (walls and floor)
@@ -97,14 +108,12 @@ public class GameView extends JPanel {
     private void drawMap(Graphics2D g2d, int rows, int cols) {
         for (int row = 0; row < rows; row++) {
             for(int col = 0; col < cols; col++) {
-                int x = offsetX + col * tileSize;
-                int y = offsetY + row * tileSize;
+                Point tile = new Point(row, col);
                 if (level.getWalls().contains(new Point(row, col))) {
-                    g2d.setColor(WALL_COLOR);
-                    g2d.fillRect(x, y, tileSize, tileSize);
+                    drawImageTile(g2d, wallImg, tile);
                 } else {
                     g2d.setColor(FLOOR_COLOR);
-                    g2d.fillRect(x, y, tileSize, tileSize);
+                    g2d.fillRect(tile.x, tile.y, tileSize, tileSize);
                 }
             }
         }
@@ -117,7 +126,7 @@ public class GameView extends JPanel {
         g2d.setColor(GOAL_COLOR);
         g2d.setStroke(new BasicStroke(Math.max(1, tileSize/10)));
         for (Point goal : level.getGoals()) {
-            g2d.drawRect(offsetX + goal.y * tileSize + 5, offsetY + goal.x * tileSize + 5, tileSize - 10, tileSize - 10);
+            drawImageTile(g2d, goalImg, goal);
         }
     }
     
@@ -126,10 +135,7 @@ public class GameView extends JPanel {
      */
     private void drawObstacles(Graphics2D g2d) {
         for (Point obstacle : level.getObstacles()) {
-            g2d.setColor(OBSTACLE_COLOR);
-            g2d.fillRect(offsetX + obstacle.y * tileSize + 2, offsetY + obstacle.x * tileSize + 2, tileSize - 4, tileSize - 4);
-            g2d.setColor(Color.BLACK);
-            g2d.drawRect(offsetX + obstacle.y * tileSize + 2, offsetY + obstacle.x * tileSize + 2, tileSize - 4, tileSize - 4);
+            drawImageTile(g2d, obstacleImg, obstacle);
         }
     }
     
@@ -138,8 +144,7 @@ public class GameView extends JPanel {
      */
     private void drawPlayer(Graphics2D g2d) {
         Point player = level.getPlayer();
-        g2d.setColor(PLAYER_COLOR);
-        g2d.fillOval(offsetX + player.y * tileSize + 2, offsetY + player.x * tileSize + 2, tileSize - 4, tileSize - 4);
+        drawImageTile(g2d, playerImg, player);
     }
 
     /**
@@ -151,24 +156,25 @@ public class GameView extends JPanel {
         int lineHeight = 20;
 
         g2d.setColor(STATS_COLOR);
-        g2d.setFont(new Font("SansSerif", Font.BOLD, 30));
+        g2d.setFont(new Font("SansSerif", Font.BOLD, 20));
 
         // Format the time to 2 decimal places for better readability
         String formattedTime = String.format("%.2f", timeLeft);
+
+        // Draw Time Left if a limit is set (not -1.0)
+        if (timeLeft != -1L) {
+            String timeText = "        Zeit übrig: " + formattedTime + " s";
+            g2d.drawString(timeText, xPos, yPos);
+            yPos -= lineHeight; // Move up for the next stat
+        }
 
         // Draw Steps Left if a limit is set (not -1)
         if (stepsLeft != -1) {
             String stepsText = "Schritte übrig: " + stepsLeft;
             g2d.drawString(stepsText, xPos, yPos);
-            yPos -= lineHeight; // Move up for the next stat
-        }
-
-        // Draw Time Left if a limit is set (not -1.0)
-        if (timeLeft != -1.0) {
-            String timeText = "Zeit übrig: " + formattedTime + " s";
-            g2d.drawString(timeText, xPos, yPos);
         }
     }
+
     /**
      * rescales tile size for window; based on max & min size of tile
      */
@@ -183,5 +189,44 @@ public class GameView extends JPanel {
 
         offsetX = (getWidth() - (mapWidth * tileSize)) / 2;
         offsetY = (getHeight() - (mapHeight * tileSize)) / 2;
+    }
+
+
+    /**
+     * Draw an image that is placed on a tile (tilePosition: Point(row, col)).
+     * If image missing, draw a fallback (oval).
+     */
+    private void drawImageTile(Graphics2D g2d, String imagePath, Point tilePosition) {
+        int px = offsetX + tilePosition.y * tileSize + 2; // pixel x
+        int py = offsetY + tilePosition.x * tileSize + 2; // pixel y
+        int size = Math.max(1, tileSize - 4);
+
+        Image img = loadImage(imagePath);
+        if (img != null) {
+            g2d.drawImage(img, px, py, size, size, this);
+        } else {
+            // fallback (simple shape so missing image doesn't break layout)
+            g2d.setColor(PLAYER_COLOR);
+            g2d.fillOval(px, py, size, size);
+            g2d.setColor(Color.BLACK);
+            g2d.drawOval(px, py, size, size);
+        }
+    }
+
+    /**
+     * Load image once and cache it.
+     */
+    private Image loadImage(String path) {
+        if (imageCache.containsKey(path)) return imageCache.get(path);
+        try {
+            Image img = ImageIO.read(new File(path));
+            imageCache.put(path, img);
+            return img;
+        } catch (IOException e) {
+            // cache null to avoid repeated attempts
+            imageCache.put(path, null);
+            System.err.println("Bild nicht gefunden: " + path + " -> " + e.getMessage());
+            return null;
+        }
     }
 }
