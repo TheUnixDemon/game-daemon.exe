@@ -59,7 +59,7 @@ public class GameController implements ActionListener {
         gameView.requestFocusInWindow();
 
         // set for fixed refresh rate
-        gameLoopTimer = new Timer(12, this);
+        gameLoopTimer = new Timer(60, this);
         gameLoopTimer.start();
     }
 

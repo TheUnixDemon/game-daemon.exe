@@ -98,7 +98,6 @@ public class LevelSelectionView extends JFrame implements ActionListener {
                 
                 // Start the game
                 new GameController(selectedLevel);
-                
             } else {
                 // Error message in German
                 JOptionPane.showMessageDialog(this, 

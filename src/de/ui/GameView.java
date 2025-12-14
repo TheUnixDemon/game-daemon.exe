@@ -99,7 +99,6 @@ public class GameView extends JPanel {
             for(int col = 0; col < cols; col++) {
                 int x = offsetX + col * tileSize;
                 int y = offsetY + row * tileSize;
-            
                 if (level.getWalls().contains(new Point(row, col))) {
                     g2d.setColor(WALL_COLOR);
                     g2d.fillRect(x, y, tileSize, tileSize);
@@ -112,7 +111,7 @@ public class GameView extends JPanel {
     }
 
     /**
-     * Draws the goals.
+     * Draws the goals
      */
     private void drawGoals(Graphics2D g2d) {
         g2d.setColor(GOAL_COLOR);
@@ -152,7 +151,7 @@ public class GameView extends JPanel {
         int lineHeight = 20;
 
         g2d.setColor(STATS_COLOR);
-        g2d.setFont(new Font("SansSerif", Font.BOLD, 14));
+        g2d.setFont(new Font("SansSerif", Font.BOLD, 30));
 
         // Format the time to 2 decimal places for better readability
         String formattedTime = String.format("%.2f", timeLeft);
