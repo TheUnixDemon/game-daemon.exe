@@ -16,7 +16,7 @@ public class Gamecore {
     // game ui & game status for controlling
     private LevelSelectionView levelSelectionView;
     private GameStatus gameStatus;
-    
+
     /**
      * entrypoint in game
      */
@@ -32,14 +32,14 @@ public class Gamecore {
             // loading levels out of ascii text file
             LevelCreate levelCreate = new LevelCreate();
             ArrayList<Level> levels = levelCreate.getLevels();
-            
+
             // creating default gameStatus, creating ui instances & controlling
             gameStatus = new GameStatus();
             levelSelectionView = new LevelSelectionView(levels, gameStatus);
             while (true) {
                 if (levelSelectionView.getGameStatus() == false) { return; }
                 if (levelSelectionView.getBackToMenu() == true) { break; }
-                
+
                 // for not calling gameStatus too often
                 try {
                     Thread.sleep(1000);
