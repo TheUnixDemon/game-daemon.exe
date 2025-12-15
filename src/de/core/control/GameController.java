@@ -7,6 +7,9 @@ import javax.swing.*;
 
 import de.core.level.Level;
 import de.core.Gameboard;
+import de.core.audio.BackgroundMusic;
+import de.core.control.GameStatus;
+import de.ui.GamePauseView;
 import de.ui.GameEndView;
 import de.ui.GameView;
 
@@ -19,11 +22,14 @@ public class GameController implements ActionListener {
     private String frameTitle = "Gamon";
     private JFrame frame;
     private GameView gameView; 
+    private GamePauseView pauseView;
+    private boolean pauseViewOpen = false;
     
     // logical components
     private KeyInput keyInput;
     private Gameboard gameboard; 
     private Timer gameLoopTimer;
+    private BackgroundMusic backgroundMusic;
 
     // deep copy for restarting
     private Level initialLevel; 
@@ -31,17 +37,23 @@ public class GameController implements ActionListener {
     // time measurements
     private long startTimeMillis;
 
+    // for closing/exiting game
+    private GameStatus gameStatus;
+
     /**
      * creates base frame & sets Gameboard to choosen Level for changing Level data & GameView for reading Level data
      * GameView (fontend) draws Level data that is edited by Gameboard (backend)
      * @param level choosen one as base for Gameboard & GameView objs
      */
-    public GameController(Level level) {
-        this.gameboard = new Gameboard(level);
-        this.gameView = new GameView(level); 
-        this.keyInput = new KeyInput();
-        this.initialLevel = new Level(level);
-        this.startTimeMillis = System.currentTimeMillis(); // for timeMeasurement(); returns used time per action
+    public GameController(Level level, GameStatus gameStatus) {
+        this.gameStatus = gameStatus;
+        
+        gameboard = new Gameboard(level);
+        gameView = new GameView(level); 
+        keyInput = new KeyInput();
+        initialLevel = new Level(level);
+        startTimeMillis = System.currentTimeMillis(); // for timeMeasurement(); returns used time per action
+        backgroundMusic = new BackgroundMusic();
 
         // base frame
         frame = new JFrame("Gamon" + gameboard.getStepsLeft());
@@ -70,20 +82,40 @@ public class GameController implements ActionListener {
      */
     @Override
     public void actionPerformed(ActionEvent e) {
-        // conditions & statistics
-        if (gameboard.getEndGame()) {}
-        long timeUsed = getTimeMeasurement();
-        gameboard.decreaseTimeLeft(timeUsed); gameboard.addTimeUsed(timeUsed);
+        // pause handling
+        if (keyInput.getIsPaused()) {
+            if (!pauseViewOpen) {
+                gameLoopTimer.stop();
+                pauseView = new GamePauseView(this, frame);
+                pauseViewOpen = true;
+            }
+            return;
+        } else {
+            if (pauseViewOpen) {
+                pauseView.dispose();
+                pauseViewOpen = false;
+                startTimeMillis = System.currentTimeMillis(); // reset time delta
+                gameLoopTimer.start();
+            }
+        }
 
+        // conditions & statistics
+        long timeUsed = getTimeMeasurement();
+        // part of easteregg -> disables all 
+        if (!keyInput.getEastereggStatus()) {
+            gameboard.decreaseTimeLeft(timeUsed);
+            gameboard.addTimeUsed(timeUsed);
+        }
 
         // movement
         Direction dir = keyInput.getDirection();
 
         // player inputs something
         if (dir != null) {
-            gameboard.decreaseStepsLeft(); gameboard.addStepsUsed();
-            gameboard.moveTo(dir);       
-            frame.setTitle(frameTitle + " time used: " + gameboard.getTimeUsed());
+            if (!keyInput.getEastereggStatus()) {
+                gameboard.decreaseStepsLeft(); gameboard.addStepsUsed();
+            }
+            gameboard.moveTo(dir);      
         }
 
         if (gameboard.getEndGame()) {
@@ -96,6 +128,7 @@ public class GameController implements ActionListener {
         // redraw & add informations
         updateViewStats(); // New method to pass stats to GameView
         frame.setTitle(frameTitle);
+        gameView.setEastereggStatus(keyInput.getEastereggStatus());
         gameView.repaint();
     }
 
@@ -134,6 +167,7 @@ public class GameController implements ActionListener {
         double totalTimeUsed = gameboard.getTimeUsed();
         
         frame.dispose(); 
+        backgroundMusic.stop();
         
         new GameEndView(status, totalStepsUsed, totalTimeUsed, this);
     }
@@ -148,6 +182,51 @@ public class GameController implements ActionListener {
         }
 
         Level nextInitialLevel = new Level(initialLevel); 
-        new GameController(nextInitialLevel);
+        backgroundMusic.stop();
+        new GameController(nextInitialLevel, gameStatus);
+    }
+
+    /**
+     * Resume the game from the pause menu.
+     * This method is called by the pause view (button or ESC) and
+     * will flip the KeyInput pause flag and restart the timer/view state here.
+     */
+    public void resumeFromPause() {
+        // if not paused nothing to do
+        if (keyInput.getIsPaused()) { keyInput.togglePause(); }
+        // close pause view if still open
+        if (pauseViewOpen) {
+            if (pauseView != null) {
+                pauseView.dispose();
+                pauseView = null;
+            }
+            pauseViewOpen = false;
+        }
+
+        // reset time base to avoid huge delta and start timer
+        startTimeMillis = System.currentTimeMillis();
+        if (gameLoopTimer != null && !gameLoopTimer.isRunning()) {
+            gameLoopTimer.start();
+        }
+    }
+
+    public void setGameStatus(boolean gameStatus) {
+        this.gameStatus.setGameStatus(gameStatus);
+    }
+
+    public boolean getGameStatus() {
+        return gameStatus.getGameStatus();
+    }
+
+    public void setBackToMenu(boolean backToMenu) {
+        this.gameStatus.setBackToMenu(backToMenu);
+    }
+
+    public boolean getBackToMenu() {
+        return gameStatus.getBackToMenu();
+    }
+
+    public void stopBackgroundMusic() {
+        backgroundMusic.stop();
     }
 }

@@ -7,27 +7,35 @@ import java.util.ArrayList;
 import javax.swing.*;
 
 import de.core.control.GameController;
+import de.core.control.GameStatus;
 import de.core.level.Level;
 
 /**
  * Enhanced UI for level selection. Uses BorderLayout and fixed size for better aesthetics.
  */
 public class LevelSelectionView extends JFrame implements ActionListener {
-
     private ArrayList<Level> levels;
     private JComboBox<String> levelDropdown;
     private JButton startButton;
+    private JButton closeButton;
+
+    // game controller for creating gameview and gameboard
+    private GameController gameController;
+    
+    // game status save for returning or exiting game
+    private GameStatus gameStatus;
 
     // Fixed preferred window size
-    private final int WINDOW_WIDTH = 400;
-    private final int WINDOW_HEIGHT = 200;
+    private final int WINDOW_WIDTH = 600;
+    private final int WINDOW_HEIGHT = 600;
 
     /**
      * Initializes the level selection view.
      * @param levels The list of Level objects available for selection.
      */
-    public LevelSelectionView(ArrayList<Level> levels) {
+    public LevelSelectionView(ArrayList<Level> levels, GameStatus gameStatus) {
         this.levels = levels;
+        this.gameStatus = gameStatus;
         
         // 1. Basic window setup
         setTitle("Gamon Level-Menü");
@@ -41,7 +49,7 @@ public class LevelSelectionView extends JFrame implements ActionListener {
         
         // 2. Header / Title Label
         JLabel titleLabel = new JLabel("Wählen Sie Ihr Gamon-Level:", SwingConstants.CENTER);
-        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 18));
+        titleLabel.setFont(new Font("SansSerif", Font.BOLD, 24));
         titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 0, 5, 0)); // Top padding
         add(titleLabel, BorderLayout.NORTH);
 
@@ -55,23 +63,42 @@ public class LevelSelectionView extends JFrame implements ActionListener {
             levelNames[i] = "Level " + (i + 1); 
         }
         levelDropdown = new JComboBox<>(levelNames);
+        levelDropdown.setFont(new Font("Arial", Font.PLAIN, 18));
         levelDropdown.setSelectedIndex(0);
         
-        centerPanel.add(new JLabel("Level:"));
+        JLabel levelSelection = new JLabel("Level-Auswahl: ");
+        levelSelection.setFont(new Font("Arial", Font.BOLD, 18));
+        centerPanel.add(levelSelection);
         centerPanel.add(levelDropdown);
         add(centerPanel, BorderLayout.CENTER);
 
         // 4. South Panel for Button
         JPanel southPanel = new JPanel();
-        southPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 10));
-        southPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0)); // Bottom padding
+        southPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 0, 20));
+        southPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 100, 0)); // Bottom padding
 
-        // Create Start Button
+        Dimension buttonSize = new Dimension(WINDOW_WIDTH / 2, 60);
+
         startButton = new JButton("Spiel starten");
-        startButton.addActionListener(this); 
-        startButton.setPreferredSize(new Dimension(WINDOW_WIDTH / 2, 40)); // Make button wider
-        
+        startButton.setFont(new Font("Arial", Font.BOLD, 20));
+        startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        startButton.setPreferredSize(buttonSize);
+        startButton.setMaximumSize(buttonSize);
+        startButton.addActionListener(this);
+
+        closeButton = new JButton("Spiel verlassen");
+        closeButton.setFont(new Font("Arial", Font.BOLD, 20));
+        closeButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        closeButton.setPreferredSize(buttonSize);
+        closeButton.setMaximumSize(buttonSize);
+        closeButton.addActionListener(e -> {
+            dispose();
+            gameStatus.setGameStatus(false);
+        });
+     
         southPanel.add(startButton);
+        southPanel.add(closeButton);
+
         add(southPanel, BorderLayout.SOUTH);
 
         // Display window
@@ -86,18 +113,15 @@ public class LevelSelectionView extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == startButton) {
-            
             int selectedIndex = levelDropdown.getSelectedIndex();
-            
             if (selectedIndex >= 0 && selectedIndex < levels.size()) {
-                
                 Level selectedLevel = levels.get(selectedIndex);
                 
                 // Close selection window
                 this.dispose(); 
                 
                 // Start the game
-                new GameController(selectedLevel);
+                gameController = new GameController(selectedLevel, gameStatus);
             } else {
                 // Error message in German
                 JOptionPane.showMessageDialog(this, 
@@ -106,5 +130,17 @@ public class LevelSelectionView extends JFrame implements ActionListener {
                     JOptionPane.ERROR_MESSAGE);
             }
         }
+    }
+
+    /**
+     * calls isAlive() in gameController for exiting in Gamecore if game is dead (-> to games menu)
+     * @return game status for exiting
+     */
+    public boolean getGameStatus() {
+        return gameStatus.getGameStatus();
+    }
+
+    public boolean getBackToMenu() {
+        return gameStatus.getBackToMenu();
     }
 }

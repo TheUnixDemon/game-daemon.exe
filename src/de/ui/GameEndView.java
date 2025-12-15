@@ -20,7 +20,6 @@ public class GameEndView extends JFrame {
      * @param controller The GameController instance to handle the restart action.
      */
     public GameEndView(boolean won, int stepsUsed, double timeUsed, GameController controller) {
-        
         setTitle("Game Over");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         
@@ -65,7 +64,7 @@ public class GameEndView extends JFrame {
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 15, 20)); // Added horizontal gap
         
         // --- NEW RESTART BUTTON IMPLEMENTATION START ---
-        JButton restartButton = new JButton("Restart Level");
+        JButton restartButton = new JButton("Level neustarten");
         restartButton.setFont(new Font("SansSerif", Font.BOLD, 14));
         restartButton.addActionListener(e -> {
             dispose(); // Close the Game End View
@@ -75,11 +74,22 @@ public class GameEndView extends JFrame {
         buttonPanel.add(restartButton);
         // --- NEW RESTART BUTTON IMPLEMENTATION END ---
         
-        JButton closeButton = new JButton("OK / Exit Game");
+        JButton backToMenuButton = new JButton("Level Menü");
+        backToMenuButton.setFont(new Font("SansSerif", Font.BOLD, 14));
+        // ActionListener to close the window on click
+        backToMenuButton.addActionListener(e -> { 
+            dispose(); 
+            controller.setBackToMenu(true); 
+        });
+        buttonPanel.add(backToMenuButton);
+
+        JButton closeButton = new JButton("Spiel verlassen");
         closeButton.setFont(new Font("SansSerif", Font.BOLD, 14));
         // ActionListener to close the window on click
-        closeButton.addActionListener(e -> dispose());
-        
+        closeButton.addActionListener(e -> { 
+            dispose(); 
+            controller.setGameStatus(false); 
+        });
         buttonPanel.add(closeButton);
         
         // Add the button area to the SOUTH area

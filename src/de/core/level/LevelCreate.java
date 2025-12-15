@@ -7,6 +7,8 @@ import java.util.ArrayList;
  */
 public class LevelCreate {
     private ArrayList<Level> levels = new ArrayList<>();
+    private String basePath = "./srv/level/map/"; // CHANGEME
+
 
     /**
      * creates Levels & add them to ArrayList for getting through getLevels() later on
@@ -41,7 +43,6 @@ public class LevelCreate {
      * @return level object for arraylist
      */    
     private Level createLevel(String filename, int maxSteps, long maxTime) {
-        String basePath = "./srv/level/map/"; // relative path form execution
         Level level = new Level(basePath + filename);
         if (maxSteps != -1) { level.setMaxSteps(maxSteps); }
         if (maxTime != -1) { level.setMaxTime(maxTime); }

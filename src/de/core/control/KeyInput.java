@@ -8,6 +8,8 @@ import java.awt.event.*;
 public class KeyInput implements KeyListener {
     private Direction dir; 
     private Direction nextDir;
+    private boolean isPaused;
+    private boolean easteregg;
 
     /**
      * sets current pressed directions to base state
@@ -15,6 +17,8 @@ public class KeyInput implements KeyListener {
     public KeyInput() {
         dir = null;
         nextDir = null;
+        isPaused = false;
+        easteregg = false;
     }
 
     /**
@@ -22,6 +26,11 @@ public class KeyInput implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            togglePause();
+            dir = null;
+        }
+        if (isPaused) { return; }
         switch (e.getKeyCode()) {
             case KeyEvent.VK_W:
                 dir = Direction.UP;
@@ -34,6 +43,9 @@ public class KeyInput implements KeyListener {
                 break;
             case KeyEvent.VK_D:
                 dir = Direction.RIGHT;
+                break;
+            case KeyEvent.VK_C:
+                easteregg = !easteregg;
                 break;
             default:
                 dir = null;
@@ -67,5 +79,16 @@ public class KeyInput implements KeyListener {
         Direction currentDir = nextDir;
         nextDir = null;
         return currentDir;
+    }
+
+    public void togglePause() {
+        isPaused = !isPaused;
+    }
+    public boolean getIsPaused() {
+        return isPaused;
+    }
+
+    public boolean getEastereggStatus() {
+        return easteregg;
     }
 }

@@ -15,17 +15,20 @@ import de.core.level.Level;
  */
 public class GameView extends JPanel {
     private Level level; // current choosen level
+    private boolean eastereggStatus;
 
     // variable tile size
     private int tileSize = 0;
-    private final int MIN_TILE_SIZE = 45; // smallest tile size
-    private final int MAX_TILE_SIZE = 80; // biggest tile size
+    private final int MIN_TILE_SIZE = 35; // smallest tile size
+    private final int MAX_TILE_SIZE = 70; // biggest tile size
 
     // image caching
     private Map<String, Image> imageCache = new HashMap<>();
     private String basePath = "./srv/tile/"; // CHANGEME
-    private String wallImg = basePath + "wall-2.jpg";
+    private String wallImg = basePath + "wall.jpg";
+    private String wallEggImg = basePath + "wall-egg.jpg";
     private String playerImg = basePath + "player.png";
+    private String playerEggImg = basePath + "player-egg.png";
     private String goalImg = basePath + "goal.png";
     private String obstacleImg = basePath + "obstacle.png";
 
@@ -38,22 +41,22 @@ public class GameView extends JPanel {
     private double timeLeft = -1.0; // Default: No time limit
 
     // colors for testing & fillin if tile set not found (img not found)
-    private final Color WALL_COLOR = new Color(50, 50, 50);
     private final Color FLOOR_COLOR = new Color(30,30,30);
     private final Color PLAYER_COLOR = Color.BLUE;
-    private final Color OBSTACLE_COLOR = new Color(139, 69, 19); 
     private final Color GOAL_COLOR = new Color(0, 150, 0); 
     private final Color STATS_COLOR = Color.WHITE; // New color for stats
 
     public GameView(Level level) {
         this.level = level;
+        eastereggStatus = false;
 
         setBackground(FLOOR_COLOR);
         setFocusable(true);
 
         // base size for window
-        int width = level.getMap().get(0).length * MIN_TILE_SIZE;
-        int height = level.getMap().size() * MIN_TILE_SIZE;
+        int padding = 300;
+        int width = level.getMap().get(0).length * MIN_TILE_SIZE + padding;
+        int height = level.getMap().size() * MIN_TILE_SIZE + padding;
         setPreferredSize(new Dimension(width, height));
     }
 
@@ -86,17 +89,20 @@ public class GameView extends JPanel {
         g2d.setColor(new Color(139,125,123));
         g2d.fillRect(offsetX, offsetY, cols * tileSize, rows * tileSize);
 
-        // Draw Gameboard (walls and floor)
-        drawMap(g2d, rows, cols);
-
         // Draw goals
         drawGoals(g2d);
 
+        // Draw Gameboard (walls and floor)
+        if (eastereggStatus) { 
+            drawEggMap(g2d, rows, cols);
+            drawEggPlayer(g2d);
+        } else {
+            drawMap(g2d, rows, cols);
+            drawPlayer(g2d);
+        }
+
         // Draw obstacles (boxes)
         drawObstacles(g2d);
-
-        // Draw player
-        drawPlayer(g2d);
 
         // Draw statistics (new feature)
         drawStats(g2d);
@@ -111,6 +117,23 @@ public class GameView extends JPanel {
                 Point tile = new Point(row, col);
                 if (level.getWalls().contains(new Point(row, col))) {
                     drawImageTile(g2d, wallImg, tile);
+                } else {
+                    g2d.setColor(FLOOR_COLOR);
+                    g2d.fillRect(tile.x, tile.y, tileSize, tileSize);
+                }
+            }
+        }
+    }
+
+    /**
+     * Draws the floor and walls of the map.
+     */
+    private void drawEggMap(Graphics2D g2d, int rows, int cols) {
+        for (int row = 0; row < rows; row++) {
+            for(int col = 0; col < cols; col++) {
+                Point tile = new Point(row, col);
+                if (level.getWalls().contains(new Point(row, col))) {
+                    drawImageTile(g2d, wallEggImg, tile);
                 } else {
                     g2d.setColor(FLOOR_COLOR);
                     g2d.fillRect(tile.x, tile.y, tileSize, tileSize);
@@ -145,6 +168,14 @@ public class GameView extends JPanel {
     private void drawPlayer(Graphics2D g2d) {
         Point player = level.getPlayer();
         drawImageTile(g2d, playerImg, player);
+    }
+
+    /**
+     * Draws the player. easteregg version
+     */
+    private void drawEggPlayer(Graphics2D g2d) {
+        Point player = level.getPlayer();
+        drawImageTile(g2d, playerEggImg, player);
     }
 
     /**
@@ -191,7 +222,6 @@ public class GameView extends JPanel {
         offsetY = (getHeight() - (mapHeight * tileSize)) / 2;
     }
 
-
     /**
      * Draw an image that is placed on a tile (tilePosition: Point(row, col)).
      * If image missing, draw a fallback (oval).
@@ -228,5 +258,9 @@ public class GameView extends JPanel {
             System.err.println("Bild nicht gefunden: " + path + " -> " + e.getMessage());
             return null;
         }
+    }
+
+    public void setEastereggStatus(boolean eastereggStatus) {
+        this.eastereggStatus = eastereggStatus;
     }
 }
