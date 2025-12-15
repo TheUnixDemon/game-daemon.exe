@@ -54,7 +54,7 @@ public class GameView extends JPanel {
         setFocusable(true);
 
         // base size for window
-        int padding = 300;
+        int padding = 400;
         int width = level.getMap().get(0).length * MIN_TILE_SIZE + padding;
         int height = level.getMap().size() * MIN_TILE_SIZE + padding;
         setPreferredSize(new Dimension(width, height));

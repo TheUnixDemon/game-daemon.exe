@@ -46,10 +46,10 @@ public class Level extends Map {
             char[] line = map.get(i);
             for (int j = 0; j < line.length; j++) {
                 switch (line[j]) {
-                    case '*':
+                    case '$':
                         this.obstacles.add(new Point(i, j));
                         break;
-                    case 'X':
+                    case '#':
                         this.walls.add(new Point(i, j));
                         break;
                     case '.':
