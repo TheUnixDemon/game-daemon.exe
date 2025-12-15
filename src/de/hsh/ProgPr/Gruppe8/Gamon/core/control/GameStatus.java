@@ -1,4 +1,4 @@
-package de.core.control;
+package de.hsh.ProgPr.Gruppe8.Gamon.core.control;
 
 /**
  * class for controlling exting or reentering in level menu

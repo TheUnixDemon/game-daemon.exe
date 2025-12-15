@@ -1,4 +1,4 @@
-package de.core.audio;
+package de.hsh.ProgPr.Gruppe8.Gamon.core.audio;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -10,7 +10,7 @@ import java.io.IOException;
  * No pause / resume support by design.
  */
 public class BackgroundMusic {
-    private String basePath = "./srv/audio/"; // CHANGEME
+    private String basePath = "./de/hsh/ProgPr/Gruppe8/Gamon/srv/audio/"; // CHANGEME
     private String filename = "background.wav";
     private String wavPath = basePath + filename;
     private Clip clip;

@@ -1,11 +1,11 @@
-package de.ui;
+package de.hsh.ProgPr.Gruppe8.Gamon.ui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import de.core.control.GameController; // Import the GameController class
+import de.hsh.ProgPr.Gruppe8.Gamon.core.control.GameController; // Import the GameController class
 
 /**
  * Modernized UI to display the final game status and statistics.

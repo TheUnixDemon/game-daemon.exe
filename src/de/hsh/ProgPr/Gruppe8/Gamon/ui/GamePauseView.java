@@ -1,10 +1,10 @@
-package de.ui;
+package de.hsh.ProgPr.Gruppe8.Gamon.ui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*; // needed for KeyEvent and ActionListener
-import de.core.control.GameController;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.control.GameController;
 
 /**
  * Pause menu that can be toggled with ESC.

@@ -1,9 +1,9 @@
-package de.core;
+package de.hsh.ProgPr.Gruppe8.Gamon.core;
 
 import java.awt.Point;
 
-import de.core.level.Level;
-import de.core.control.Direction;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.level.Level;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.control.Direction;
 
 /**
  * backend for gameplay

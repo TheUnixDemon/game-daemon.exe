@@ -1,4 +1,4 @@
-package de.core.level;
+package de.hsh.ProgPr.Gruppe8.Gamon.core.level;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,7 @@ import java.util.ArrayList;
  */
 public class LevelCreate {
     private ArrayList<Level> levels = new ArrayList<>();
-    private String basePath = "./srv/level/map/"; // CHANGEME
+    private String basePath = "./de/hsh/ProgPr/Gruppe8/Gamon/srv/level/map/"; // CHANGEME
 
 
     /**

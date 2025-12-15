@@ -1,4 +1,4 @@
-package de.ui;
+package de.hsh.ProgPr.Gruppe8.Gamon.ui;
 
 import java.awt.*;
 import java.io.File;
@@ -7,7 +7,7 @@ import java.util.*;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-import de.core.level.Level;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.level.Level;
 
 /**
  * ui component of Gameboard; draws Gamboard and game statistics.
@@ -24,7 +24,7 @@ public class GameView extends JPanel {
 
     // image caching
     private Map<String, Image> imageCache = new HashMap<>();
-    private String basePath = "./srv/tile/"; // CHANGEME
+    private String basePath = "./de/hsh/ProgPr/Gruppe8/Gamon/srv/tile/"; // CHANGEME
     private String wallImg = basePath + "wall.jpg";
     private String wallEggImg = basePath + "wall-egg.jpg";
     private String playerImg = basePath + "player.png";

@@ -1,4 +1,4 @@
-package de.core.control;
+package de.hsh.ProgPr.Gruppe8.Gamon.core.control;
 
 import java.awt.event.*;
 

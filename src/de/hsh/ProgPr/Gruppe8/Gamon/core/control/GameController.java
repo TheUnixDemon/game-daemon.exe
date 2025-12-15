@@ -1,17 +1,17 @@
-package de.core.control;
+package de.hsh.ProgPr.Gruppe8.Gamon.core.control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.*;
 
-import de.core.level.Level;
-import de.core.Gameboard;
-import de.core.audio.BackgroundMusic;
-import de.core.control.GameStatus;
-import de.ui.GamePauseView;
-import de.ui.GameEndView;
-import de.ui.GameView;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.level.Level;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.Gameboard;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.audio.BackgroundMusic;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.control.GameStatus;
+import de.hsh.ProgPr.Gruppe8.Gamon.ui.GamePauseView;
+import de.hsh.ProgPr.Gruppe8.Gamon.ui.GameEndView;
+import de.hsh.ProgPr.Gruppe8.Gamon.ui.GameView;
 
 /**
  * controls fontends & backend
@@ -115,7 +115,7 @@ public class GameController implements ActionListener {
             if (!keyInput.getEastereggStatus()) {
                 gameboard.decreaseStepsLeft(); gameboard.addStepsUsed();
             }
-            gameboard.moveTo(dir);      
+            gameboard.moveTo(dir);
         }
 
         if (gameboard.getEndGame()) {

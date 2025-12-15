@@ -1,13 +1,13 @@
-package de.core;
+package de.hsh.ProgPr.Gruppe8.Gamon.core;
 
 import java.util.*;
 import javax.swing.SwingUtilities;
 
-import de.core.level.Level;
-import de.core.level.LevelCreate;
-import de.core.control.GameController;
-import de.core.control.GameStatus;
-import de.ui.*;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.level.Level;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.level.LevelCreate;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.control.GameController;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.control.GameStatus;
+import de.hsh.ProgPr.Gruppe8.Gamon.ui.*;
 
 /**
  * control class and entrypoint for game
@@ -37,7 +37,6 @@ public class Gamecore {
             gameStatus = new GameStatus();
             levelSelectionView = new LevelSelectionView(levels, gameStatus);
             while (true) {
-                System.out.println("gameStatus: " + gameStatus.getGameStatus() + ", backToMenu: " + gameStatus.getBackToMenu());
                 if (levelSelectionView.getGameStatus() == false) { return; }
                 if (levelSelectionView.getBackToMenu() == true) { break; }
                 

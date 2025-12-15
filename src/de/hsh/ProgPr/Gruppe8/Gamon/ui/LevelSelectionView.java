@@ -1,4 +1,4 @@
-package de.ui;
+package de.hsh.ProgPr.Gruppe8.Gamon.ui;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -6,9 +6,9 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.*;
 
-import de.core.control.GameController;
-import de.core.control.GameStatus;
-import de.core.level.Level;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.control.GameController;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.control.GameStatus;
+import de.hsh.ProgPr.Gruppe8.Gamon.core.level.Level;
 
 /**
  * Enhanced UI for level selection. Uses BorderLayout and fixed size for better aesthetics.
